@@ -25,16 +25,18 @@ environment {
                  echo "----------- unit test Complted ----------"
             }
         }
-
-        stage('SonarQube analysis') {
+        stage('Sonar Scan'){
         environment {
           scannerHome = tool 'SonarQubeScanner5'
-        }
+        }        
             steps{
-            withSonarQubeEnv('SonarQubeScanner3') { // If you have configured more than one global server connection, you can specify its name
-              sh "${scannerHome}/bin/sonar-scanner"
-            }
-            }
+                script{
+                withSonarQubeEnv('SonarQubeScanner3') { 
+                sh "mvn sonar:sonar"
+                 }
+		              // sh "mvn clean install"
+              }
+           }  
         }
         stage("Quality Gate"){
             steps {
