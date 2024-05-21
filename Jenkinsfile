@@ -31,7 +31,7 @@ environment {
         }
             steps{
             withSonarQubeEnv('SonarQubeScanner3') {
-              sh "${scannerHome}/bin/sonar-runner"
+              sh "${scannerHome}/bin/sonar-scanner"
             }
             }
         }
