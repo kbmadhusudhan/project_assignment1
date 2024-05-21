@@ -25,18 +25,15 @@ environment {
                  echo "----------- unit test Complted ----------"
             }
         }
-        stage('Sonar Scan'){
+        stage('SonarQube analysis') {
         environment {
           scannerHome = tool 'SonarQubeScanner5'
-        }        
+        }
             steps{
-                script{
-                withSonarQubeEnv('SonarQubeScanner3') { 
-                sh "mvn sonar:sonar"
-                 }
-		              // sh "mvn clean install"
-              }
-           }  
+            withSonarQubeEnv('SonarQubeScanner3') {
+              sh "${scannerHome}/bin/sonar-scanner"
+            }
+            }
         }
         stage("Quality Gate"){
             steps {
