@@ -72,7 +72,7 @@ environment {
                     sh 'mvn clean deploy -Dmaven.test.skip=true'
 
                     // Publish build info
-                    server.publishBuildInfo()
+                    server.publishBuildInfo(run: currentBuild)
                     //server.publishBuildInfo(rtMaven.getBuildInfo())
                 }
                echo "----------- publish ended ----------"
