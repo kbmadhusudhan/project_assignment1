@@ -9,6 +9,11 @@ pipeline {
     }
 environment {
     PATH = "/opt/apache-maven-3.9.4/bin:$PATH"
+    // Artifactory server details
+    ARTIFACTORY_SERVER = 'JFROG-connection' // Replace with your Artifactory server ID in Jenkins
+    ARTIFACTORY_URL = 'https://mask9147.jfrog.io/artifactory' // Replace with your Artifactory URL
+    ARTIFACTORY_REPO = 'mavenrepo-libs-release' // Replace with your target repository
+    ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID    
 }
     stages {
         stage("build"){
@@ -47,33 +52,25 @@ environment {
         }
             }
         }
-         stage("Jar Publish") {
-        steps {
-            script {
-                    echo '<--------------- Jar Publish Started --------------->'
-                     def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog_cred"
-                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
-                     def uploadSpec = """{
-                          "files": [
-                            {
-                              "pattern": "jarstaging/(*)",
-                              "target": "libs-release-local/{1}",
-                              "flat": "false",
-                              "props" : "${properties}",
-                              "exclusions": [ "*.sha1", "*.md5"]
-                            }
-                         ]
-                     }"""
-                     def buildInfo = server.upload(uploadSpec)
-                     buildInfo.env.collect()
-                     server.publishBuildInfo(buildInfo)
-                     echo '<--------------- Jar Publish Ended --------------->'  
-            
+        stage('Jar Publish') {
+            steps {
+                script {
+                    // Define the Artifactory server connection
+                    def server = Artifactory.server(ARTIFACTORY_SERVER)
+
+                    // Define the Maven resolver and deployer
+                    def rtMaven = Artifactory.newMavenBuild()
+                    rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
+                    rtMaven.deployer server: server, releaseRepo: ARTIFACTORY_REPO, snapshotRepo: ARTIFACTORY_REPO
+
+                    // Run the Maven build
+                    rtMaven.run pom: 'pom.xml', goals: 'clean install'
+
+                    // Upload the build-info to Artifactory
+                    server.publishBuildInfo(rtMaven.getBuildInfo())
+                }
             }
-        }   
-    }
-
-
+        }
     stage(" Docker Build ") {
       steps {
         script {
