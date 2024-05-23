@@ -1,4 +1,4 @@
-def registry = 'http://52.90.42.75:8081/artifactory'
+def registry = 'http://52.90.42.75:8081/'
 def imageName = 'http://52.90.42.75:8081/artifactory/libs-snapshot-local/sample_app'
 def version   = '2.1.2'
 pipeline {
@@ -57,7 +57,7 @@ environment {
                           "files": [
                             {
                               "pattern": "jarstaging/(*)",
-                              "target": "maven-libs-release-local/{1}",
+                              "target": "libs-release-local/{1}",
                               "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
