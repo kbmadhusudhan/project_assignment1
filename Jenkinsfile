@@ -1,5 +1,5 @@
-def registry = 'https://satishk.jfrog.io'
-def imageName = 'satishk.jfrog.io/satish-docker-local/sample_app'
+def registry = 'http://52.90.42.75:8081/artifactory'
+def imageName = 'http://52.90.42.75:8081/artifactory/libs-snapshot-local/sample_app'
 def version   = '2.1.2'
 pipeline {
     agent {
