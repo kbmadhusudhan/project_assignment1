@@ -54,6 +54,7 @@ environment {
         }
         stage('Jar Publish') {
             steps {
+                echo "----------- publish started ----------"
                 script {
                     // Define the Artifactory server connection
                     def server = Artifactory.server(ARTIFACTORY_SERVER)
@@ -69,6 +70,7 @@ environment {
                     // Upload the build-info to Artifactory
                     server.publishBuildInfo(rtMaven.getBuildInfo())
                 }
+               echo "----------- publish ended ----------"
             }
         }
     stage(" Docker Build ") {
