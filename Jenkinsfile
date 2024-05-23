@@ -52,72 +52,30 @@ environment {
         }
             }
         }
-        stage('Jar Publish') {
+        stage("Jar Publish") {
             steps {
-                echo "----------- publish started ----------"
                 script {
-                    // Define the Artifactory server connection
-                    def server = Artifactory.server(ARTIFACTORY_SERVER)
-
-                    // Define the Maven resolver and deployer
-                   // def rtMaven = Artifactory.newMavenBuild()
-                   // rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
-                   // rtMaven.deployer server: server, releaseRepo: ARTIFACTORY_REPO, snapshotRepo: ARTIFACTORY_REPO
-
-                    // Run the Maven build
-                   // rtMaven.run pom: 'pom.xml', goals: 'clean install'
-
-                    // Upload the build-info to Artifactory
-                    // Run Maven command
-                    sh 'mvn clean deploy -Dmaven.test.skip=true'
-
-                    // Publish build info
-                    server.publishBuildInfo(run: currentBuild)
-                    //server.publishBuildInfo(rtMaven.getBuildInfo())
-                }
-               echo "----------- publish ended ----------"
+                    echo '<--------------- Jar Publish Started --------------->'
+                     def server = Artifactory.server(ARTIFACTORY_SERVER) url:ARTIFACTORY_URL ,  credentialsId:"ARTIFACTORY_CREDENTIALS"
+                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+                     def uploadSpec = """{
+                          "files": [
+                            {
+                              "pattern": "jarstaging/(*)",
+                              "target": "ARTIFACTORY_REPO/{1}",
+                              "flat": "false",
+                              "props" : "${properties}",
+                              "exclusions": [ "*.sha1", "*.md5"]
+                            }
+                         ]
+                     }"""
+                     def buildInfo = server.upload(uploadSpec)
+                     buildInfo.env.collect()
+                     server.publishBuildInfo(buildInfo)
+                     echo '<--------------- Jar Publish Ended --------------->'  
             }
-        }
-    stage(" Docker Build ") {
-      steps {
-        script {
-           echo '<--------------- Docker Build Started --------------->'
-           app = docker.build(imageName+":"+version)
-           echo '<--------------- Docker Build Ends --------------->'
-        }
-      }
+        }   
     }
-
-            stage (" Docker Publish "){
-        steps {
-            script {
-               echo '<--------------- Docker Publish Started --------------->'  
-                docker.withRegistry(registry, 'jfrog_cred'){
-                    app.push()
-                }    
-               echo '<--------------- Docker Publish Ended --------------->'  
-            }
-        }
-    }
-
-    // stage (" Deploy "){
-    //     steps {
-    //         script {
-    //            sh './deploy.sh'  
-    //         }
-    //     }
-    // }
-
-stage(" Deploy ") {
-       steps {
-         script {
-            echo '<--------------- Helm Deploy Started --------------->'
-            sh 'helm install sample-app sample-app-1.0.1'
-            echo '<--------------- Helm deploy Ends --------------->'
-         }
-       }
-}  
 }
 }
-
 
