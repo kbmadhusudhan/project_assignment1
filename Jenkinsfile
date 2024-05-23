@@ -10,7 +10,7 @@ pipeline {
 environment {
     PATH = "/opt/apache-maven-3.9.4/bin:$PATH"
     // Artifactory server details
-    ARTIFACTORY_SERVER = 'JFROG-connection' // Replace with your Artifactory server ID in Jenkins
+    ARTIFACTORY_SERVER = 'artifactory-server_id' // Replace with your Artifactory server ID in Jenkins
     ARTIFACTORY_URL = 'https://mask9147.jfrog.io/artifactory' // Replace with your Artifactory URL
     ARTIFACTORY_REPO = 'mavenrepo-libs-release' // Replace with your target repository
     ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID    
