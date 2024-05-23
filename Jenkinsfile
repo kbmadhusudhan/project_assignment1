@@ -60,15 +60,20 @@ environment {
                     def server = Artifactory.server(ARTIFACTORY_SERVER)
 
                     // Define the Maven resolver and deployer
-                    def rtMaven = Artifactory.newMavenBuild()
-                    rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
-                    rtMaven.deployer server: server, releaseRepo: ARTIFACTORY_REPO, snapshotRepo: ARTIFACTORY_REPO
+                   // def rtMaven = Artifactory.newMavenBuild()
+                   // rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
+                   // rtMaven.deployer server: server, releaseRepo: ARTIFACTORY_REPO, snapshotRepo: ARTIFACTORY_REPO
 
                     // Run the Maven build
-                    rtMaven.run pom: 'pom.xml', goals: 'clean install'
+                   // rtMaven.run pom: 'pom.xml', goals: 'clean install'
 
                     // Upload the build-info to Artifactory
-                    server.publishBuildInfo(rtMaven.getBuildInfo())
+                    // Run Maven command
+                    sh 'mvn clean deploy -Dmaven.test.skip=true'
+
+                    // Publish build info
+                    server.publishBuildInfo()
+                    //server.publishBuildInfo(rtMaven.getBuildInfo())
                 }
                echo "----------- publish ended ----------"
             }
