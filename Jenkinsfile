@@ -91,13 +91,14 @@ pipeline {
                     			server1.url = ARTIFACTORY_IMAGE_REPO
                     			server1.credentialsId = ARTIFACTORY_CREDENTIALS
 						
-					app = docker.build(imageName+":"+version)
 
 					docker.withRegistry('https://mask9147.jfrog.io/artifactory', ARTIFACTORY_CREDENTIALS) {
                         		// Docker operations
-						app = docker.build(imageName+":"+version)
+						docker build -t sample_app+":"+version
+						docker tag sample_app+":"+version imageName+":"+version
+						docker push imageName+":"+version
+						//app = docker.build(imageName+":"+version)
                    			}
-				 	docker build -t imageName+":"+version
 					//app = docker.build(imageName+":"+version)
 					//docker push imageName+":"+version
 					echo '<--------------- Docker Build Ends --------------->'
