@@ -82,28 +82,24 @@ pipeline {
                 }
             }
         }
-		stage(" Docker Build ") {
-			steps {
-				script {
-					echo '<--------------- Docker Build Started --------------->'
-
-                    			def server1 = Artifactory.server(ARTIFACTORY_SERVER)
-                    			server1.url = ARTIFACTORY_IMAGE_REPO
-                    			server1.credentialsId = ARTIFACTORY_CREDENTIALS
-						
-
-                    			docker.withRegistry('https://mask9147.jfrog.io/artifactory', ARTIFACTORY_CREDENTIALS) {
-                        		// Docker operations
-                        		docker.build("sample_app:${version}")
-                        		//docker.tag("sample_app:${version}", "${imageName}:${version}")
-                        		docker.push("${imageName}:${version}")
-                    			}
-					//app = docker.build(imageName+":"+version)
-					//docker push imageName+":"+version
-					echo '<--------------- Docker Build Ends --------------->'
+        stage('Docker Build') {
+            steps {
+                script {
+                    // Build your Docker image
+                    def image = docker.build("mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:2.1.4")
+                }
+            }
         }
-      }
-    }
+        stage('docker Push') {
+            steps {
+                script {
+                    // Push the Docker image
+                    docker.withRegistry('https://mask9147.jfrog.io', 'ARTIFACTORY_CREDENTIALS') {
+                        image.push()
+                    }
+                }
+            }
+        }
 //		stage(" Deploy ") {
 //       			steps {
 //         			script {
