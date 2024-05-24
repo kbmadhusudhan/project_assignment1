@@ -1,6 +1,6 @@
 def registry = 'https://mask9147.jfrog.io'
 def imageName = 'mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app'
-def version = '2.1.2'
+def version = '2.1.3'
 
 pipeline {
     agent {
