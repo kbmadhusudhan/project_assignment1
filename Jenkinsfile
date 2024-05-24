@@ -90,15 +90,15 @@ pipeline {
         }
       }
     }
-		stage(" Deploy ") {
-       			steps {
-         			script {
-            				echo '<--------------- Helm Deploy Started --------------->'
-            				sh 'helm install sample-app mask9147.jfrog.io/artifactory/mask914-docker-local-docker-local/sample_app:2.1.2 '
-            				echo '<--------------- Helm deploy Ends --------------->'
-         }
-       }
-}
+//		stage(" Deploy ") {
+//       			steps {
+//         			script {
+//            				echo '<--------------- Helm Deploy Started --------------->'
+//            				sh 'helm install sample-app mask9147.jfrog.io/artifactory/mask914-docker-local-docker-local/sample_app:2.1.2 '
+ //           				echo '<--------------- Helm deploy Ends --------------->'
+ //        }
+ //      }
+//}
 	    
         
     }
