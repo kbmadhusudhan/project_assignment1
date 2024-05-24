@@ -95,7 +95,7 @@ pipeline {
                     			docker.withRegistry('https://mask9147.jfrog.io/artifactory', ARTIFACTORY_CREDENTIALS) {
                         		// Docker operations
                         		docker.build("sample_app:${version}")
-                        		docker.tag("sample_app:${version}", "${imageName}:${version}")
+                        		//docker.tag("sample_app:${version}", "${imageName}:${version}")
                         		docker.push("${imageName}:${version}")
                     			}
 					//app = docker.build(imageName+":"+version)
