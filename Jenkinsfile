@@ -120,7 +120,8 @@ pipeline {
 			 //sh 'tar -xzf sample-app-1.0.1.tgz -C sample/'
 			//sh 'tar -xf sample-app-1.0.1/sample-app-1.0.1.tar sample-app-1.0.1/'
 			//sh 'helm install sample-app sample/sample-app/Chart'
-			 sh 'docker run sample_app:1_0_1'
+			 //sh 'docker run sample_app:1_0_1'
+			 sh 'docker run -id --name tomcat -p 9090:9090 -p 5000:5000 sample_app:1_0_1'
 	            //sh 'helm install sample-app sample_app:1_0_1'
 	            echo '<--------------- Helm deploy Ends --------------->'
 	         }
