@@ -93,7 +93,7 @@ pipeline {
 						
 					app = docker.build(imageName+":"+version)
 
-					docker.withRegistry('https://mask9147.jfrog.io/artifactory', 'server.credentialsId') {
+					docker.withRegistry('https://mask9147.jfrog.io/artifactory', 'server1.credentialsId') {
                         		// Docker operations
 						app = docker.build(imageName+":"+version)
                    			}
