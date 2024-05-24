@@ -85,6 +85,9 @@ pipeline {
 			steps {
 				script {
 					echo '<--------------- Docker Build Started --------------->'
+					docker login https://mask9147.jfrog.io/artifactory -u mask9147@gmail.com -p Madhu@anu1
+				 	docker build -t imageName+":"+version
+					docker push imageName+":"+version
 					//app = docker.build(imageName+":"+version)
 					app = docker.build("sample_app:${version}", "mask9147.jfrog.io/artifactory/mask914-docker-local-docker")
 					//docker push imageName+":"+version
