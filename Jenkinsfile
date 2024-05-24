@@ -16,7 +16,7 @@ pipeline {
         ARTIFACTORY_REPO = 'mavenrepo-libs-release-local' // Replace with your target repository
         ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID  
 	ARTIFACTORY_IMAGE_REPO=  'https://mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app'
-	DOCKER_IMAGE_NAME = "mask9147.jfrog.io/mask914-docker-local-docker/sample_app:1.0.1"
+	DOCKER_IMAGE_NAME = "mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:1.0.1"
     }
     stages {
         stage("build") {
