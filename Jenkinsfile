@@ -88,14 +88,14 @@ pipeline {
 	stage('Build Docker image') {
 			steps {
 				script {
-					docker.build("$DOCKER_IMAGE_NAME", 'mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2')
+					docker.build("$DOCKER_IMAGE_NAME", 'mask9147.jfrog.io/artifactory/mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2')
 				}
 			}
 		}
 
 	stage('Scan and push image') {
 			steps {
-				dir('mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2/') {
+				dir('mask9147.jfrog.io/artifactory/mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2/') {
 					// Scan Docker image for vulnerabilities
 					jf 'docker scan $DOCKER_IMAGE_NAME'
 
