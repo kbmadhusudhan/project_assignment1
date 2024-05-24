@@ -16,7 +16,7 @@ pipeline {
         ARTIFACTORY_REPO = 'mavenrepo-libs-release-local' // Replace with your target repository
         ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID  
 	ARTIFACTORY_IMAGE_REPO=  'https://mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app'
-	DOCKER_IMAGE_NAME = "mask9147.jfrog.io/docker-local/sample_app:1.0.0"
+	DOCKER_IMAGE_NAME = "mask9147.jfrog.io/mask914-docker-local-docker/sample_app:1.0.0"
     }
     stages {
         stage("build") {
@@ -88,14 +88,14 @@ pipeline {
 	stage('Build Docker image') {
 			steps {
 				script {
-					docker.build("$DOCKER_IMAGE_NAME", 'docker-oci-examples/docker-example')
+					docker.build("$DOCKER_IMAGE_NAME", 'mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2')
 				}
 			}
 		}
 
 	stage('Scan and push image') {
 			steps {
-				dir('docker-oci-examples/docker-example/') {
+				dir('mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2/') {
 					// Scan Docker image for vulnerabilities
 					jf 'docker scan $DOCKER_IMAGE_NAME'
 
