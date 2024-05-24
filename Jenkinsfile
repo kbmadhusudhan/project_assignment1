@@ -14,7 +14,8 @@ pipeline {
         ARTIFACTORY_SERVER = 'artifactory-server_id' // Replace with your Artifactory server ID in Jenkins
         ARTIFACTORY_URL = 'https://mask9147.jfrog.io/artifactory' // Replace with your Artifactory URL
         ARTIFACTORY_REPO = 'mavenrepo-libs-release-local' // Replace with your target repository
-        ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID    
+        ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID  
+	ARTIFACTORY_IMAGE_REPO=  'https://mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app'
     }
     stages {
         stage("build") {
@@ -85,11 +86,19 @@ pipeline {
 			steps {
 				script {
 					echo '<--------------- Docker Build Started --------------->'
-					docker login https://mask9147.jfrog.io/artifactory -u mask9147@gmail.com -p Madhu@anu1
+
+                    			def server1 = Artifactory.server(ARTIFACTORY_SERVER)
+                    			server1.url = ARTIFACTORY_IMAGE_REPO
+                    			server1.credentialsId = ARTIFACTORY_CREDENTIALS
+						
+					app = docker.build(imageName+":"+version)
+
+					docker.withRegistry('https://mask9147.jfrog.io/artifactory', 'server.credentialsId') {
+                        		// Docker operations
+						app = docker.build(imageName+":"+version)
+                   			}
 				 	docker build -t imageName+":"+version
-					docker push imageName+":"+version
 					//app = docker.build(imageName+":"+version)
-					app = docker.build("sample_app:${version}", "mask9147.jfrog.io/artifactory/mask914-docker-local-docker")
 					//docker push imageName+":"+version
 					echo '<--------------- Docker Build Ends --------------->'
         }
