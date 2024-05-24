@@ -95,8 +95,8 @@ pipeline {
 
 	stage('Scan and push image') {
 			steps {
-			     docker.withRegistry('https://mask9147.jfrog.io/artifactory', ARTIFACTORY_CREDENTIALS) {
 				dir(""){
+					docker.withRegistry('https://mask9147.jfrog.io/artifactory', ARTIFACTORY_CREDENTIALS) {
 					// Scan Docker image for vulnerabilities
 					//sh "jf 'docker scan $DOCKER_IMAGE_NAME'"
 
