@@ -89,7 +89,7 @@ pipeline {
 			steps {
 				script {
 					docker.build("$DOCKER_IMAGE_NAME")
-					docker.build("sample_app:1.0.1")
+					docker.build("sample_app:1_0_1")
 				}
 			}
 		}
@@ -117,7 +117,7 @@ pipeline {
 	       steps {
 	         script {
 	            echo '<--------------- Helm Deploy Started --------------->'
-	            sh 'helm install sample-app /sample-app-1.0.1/sample-app-1.0.1/sample-app'
+	            sh 'helm install sample-app sample-app-1_0_1'
 	            echo '<--------------- Helm deploy Ends --------------->'
 	         }
 	       }
