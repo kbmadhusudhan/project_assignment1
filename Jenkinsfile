@@ -100,7 +100,8 @@ pipeline {
 					//sh "jf 'docker scan $DOCKER_IMAGE_NAME'"
 
 					// Push image to Artifactory
-					sh "jf 'docker push $DOCKER_IMAGE_NAME'"
+					//sh "jf 'docker push $DOCKER_IMAGE_NAME'"
+					sh "docker push mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:1.0.1"
 				}
 			}
 		}
