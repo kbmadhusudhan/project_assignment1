@@ -117,9 +117,9 @@ pipeline {
 	       steps {
 	         script {
 	            echo '<--------------- Helm Deploy Started --------------->'
-		 	sh 'tar -xzf sample-app-1.0.1.tgz -C sample-app-1.0.1/'
-			sh 'tar -xf sample-app-1.0.1/sample-app-1.0.1.tar sample-app-1.0.1/'
-			sh 'helm install sample-app sample-app-1.0.1/sample-app-1.0.1/sample-app/Chart'
+			 sh 'tar -xzf sample-app-1.0.1.tgz -C sample/'
+			//sh 'tar -xf sample-app-1.0.1/sample-app-1.0.1.tar sample-app-1.0.1/'
+			sh 'helm install sample-app sample/sample-app/Chart'
 	            //sh 'helm install sample-app sample_app:1_0_1'
 	            echo '<--------------- Helm deploy Ends --------------->'
 	         }
