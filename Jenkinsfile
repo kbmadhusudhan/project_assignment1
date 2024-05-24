@@ -89,6 +89,7 @@ pipeline {
 			steps {
 				script {
 					docker.build("$DOCKER_IMAGE_NAME")
+					docker.build("sample/sample_app:1.0.1 ")
 				}
 			}
 		}
