@@ -95,7 +95,7 @@ pipeline {
 
 	stage('Scan and push image') {
 			steps {
-				dir(ARTIFACTORY_REPO){
+				dir(""){
 					// Scan Docker image for vulnerabilities
 					sh "jf 'docker scan $DOCKER_IMAGE_NAME'"
 
