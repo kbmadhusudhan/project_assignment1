@@ -95,7 +95,7 @@ pipeline {
                 script {
                     // Push the Docker image
                     docker.withRegistry('https://mask9147.jfrog.io', ARTIFACTORY_CREDENTIALS) {
-			sh "docker tag sample_app:2.1.4 mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:2.1.4"
+			sh "docker tag image mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:2.1.4"
                         image.push("2.1.4")
                     }
                 }
