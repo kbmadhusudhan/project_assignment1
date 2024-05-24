@@ -97,10 +97,10 @@ pipeline {
 			steps {
 				dir(){
 					// Scan Docker image for vulnerabilities
-					jf 'docker scan $DOCKER_IMAGE_NAME'
+					sh "jf 'docker scan $DOCKER_IMAGE_NAME'"
 
 					// Push image to Artifactory
-					jf 'docker push $DOCKER_IMAGE_NAME'
+					sh "jf 'docker push $DOCKER_IMAGE_NAME'"
 				}
 			}
 		}
