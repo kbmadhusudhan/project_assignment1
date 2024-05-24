@@ -16,6 +16,7 @@ pipeline {
         ARTIFACTORY_REPO = 'mavenrepo-libs-release-local' // Replace with your target repository
         ARTIFACTORY_CREDENTIALS = 'JFROG_ARTIFACORY_UI' // Replace with your Jenkins credential ID  
 	ARTIFACTORY_IMAGE_REPO=  'https://mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app'
+	DOCKER_IMAGE_NAME = "mask9147.jfrog.io/docker-local/sample_app:1.0.0"
     }
     stages {
         stage("build") {
@@ -82,36 +83,42 @@ pipeline {
                 }
             }
         }
-        stage('Docker Build') {
-            steps {
-                script {
-                    // Build your Docker image
-                    def imaging = docker.build("mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:2.1.4")
-                }
-            }
-        }
-        stage('docker Push') {
-            steps {
-                script {
-                    // Push the Docker image
-                    docker.withRegistry('https://mask9147.jfrog.io', ARTIFACTORY_CREDENTIALS) {
-			docker.image(imaging).push()
-			//sh "docker tag ${image} mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:2.1.4"
-                        //image.push("2.1.4")
-                    }
-                }
-            }
-        }
-//		stage(" Deploy ") {
-//       			steps {
-//         			script {
-//            				echo '<--------------- Helm Deploy Started --------------->'
-//            				sh 'helm install sample-app mask9147.jfrog.io/artifactory/mask914-docker-local-docker-local/sample_app:2.1.2 '
- //           				echo '<--------------- Helm deploy Ends --------------->'
- //        }
- //      }
-//}
 	    
         
     }
+agent any
+	tools {
+		jfrog 'jfrog-cli'
+	}
+	environment {
+		DOCKER_IMAGE_NAME = "mask9147.jfrog.io/docker-local/hello-frog:1.0.0"
+	}
+	
+stages {
+	stage('Build Docker image') {
+			steps {
+				script {
+					docker.build("$DOCKER_IMAGE_NAME", 'docker-oci-examples/docker-example')
+				}
+			}
+		}
+
+	stage('Scan and push image') {
+			steps {
+				dir('docker-oci-examples/docker-example/') {
+					// Scan Docker image for vulnerabilities
+					jf 'docker scan $DOCKER_IMAGE_NAME'
+
+					// Push image to Artifactory
+					jf 'docker push $DOCKER_IMAGE_NAME'
+				}
+			}
+		}
+
+	stage('Publish build info') {
+			steps {
+				jf 'rt build-publish'
+			}
+		}
+	}	
 }
