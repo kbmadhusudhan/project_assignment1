@@ -85,16 +85,6 @@ pipeline {
         }
 	    
         
-    }
-agent any
-	tools {
-		jfrog 'jfrog-cli'
-	}
-	environment {
-		DOCKER_IMAGE_NAME = "mask9147.jfrog.io/docker-local/hello-frog:1.0.0"
-	}
-	
-stages {
 	stage('Build Docker image') {
 			steps {
 				script {
