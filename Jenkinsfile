@@ -95,7 +95,7 @@ pipeline {
 
 	stage('Scan and push image') {
 			steps {
-				dir('mask9147.jfrog.io/artifactory/mavenrepo-libs-release-local/com/satish/demo-workshop/2.1.2/'){
+				{
 					// Scan Docker image for vulnerabilities
 					jf 'docker scan $DOCKER_IMAGE_NAME'
 
