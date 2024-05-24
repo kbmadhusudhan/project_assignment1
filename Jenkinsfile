@@ -107,17 +107,21 @@ pipeline {
 		dir("") {
 		    docker.withRegistry('https://mask9147.jfrog.io/artifactory', ARTIFACTORY_CREDENTIALS) {
 			// Push image to Artifactory
-			sh "docker push mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:1.0.1"
+			//sh "docker push mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app:1.0.1"
 		    }
 		}
 	    }
 	} */
+	stage(" Deploy ") {
+	       steps {
+	         script {
+	            echo '<--------------- Helm Deploy Started --------------->'
+	            sh 'helm install sample-app sample-app-1.0.1'
+	            echo '<--------------- Helm deploy Ends --------------->'
+	         }
+	       }
+	}
 
 
-	stage('Publish build info') {
-			steps {
-				jf 'rt build-publish'
-			}
-		}
 	}	
 }
