@@ -1,5 +1,5 @@
 def registry = 'https://mask9147.jfrog.io'
-def imageName = 'mask9147.jfrog.io/artifactory/mask914-docker-local-docker-local/sample_app'
+def imageName = 'mask9147.jfrog.io/artifactory/mask914-docker-local-docker/sample_app'
 def version = '2.1.2'
 
 pipeline {
@@ -86,7 +86,7 @@ pipeline {
 				script {
 					echo '<--------------- Docker Build Started --------------->'
 					app = docker.build(imageName+":"+version)
-					docker push imageName+":"+version
+					//docker push imageName+":"+version
 					echo '<--------------- Docker Build Ends --------------->'
         }
       }
