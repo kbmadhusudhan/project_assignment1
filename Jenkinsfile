@@ -94,7 +94,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image
-                    docker.withRegistry('https://mask9147.jfrog.io', 'ARTIFACTORY_CREDENTIALS') {
+                    docker.withRegistry('https://mask9147.jfrog.io', ARTIFACTORY_CREDENTIALS) {
                         image.push()
                     }
                 }
